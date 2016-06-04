@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
 const Modal = (props) => {
-	const { id, agreeText, disagreeText, onAgreeClick } = props;
+	const { id, agreeText, disagreeText, onAgreeClick, className } = props;
 	return(
-		<div id={id} className="modal">
+		<div id={id} className={"modal " + className}>
 		    <div className="modal-content">
 		      {props.children}
 		    </div>
@@ -17,6 +17,7 @@ const Modal = (props) => {
 
 Modal.propTypes = {
 	id: React.PropTypes.string.isRequired,
+	className: React.PropTypes.string,
 	onAgreeClick: React.PropTypes.func.isRequired,
 	agreeText: React.PropTypes.string,
 	disagreeText: React.PropTypes.string
@@ -24,6 +25,7 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
 	agreeText: "Ok",
+	className: "",
 	disagreeText: "Cancel"
 }
 

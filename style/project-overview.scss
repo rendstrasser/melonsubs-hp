@@ -1,15 +1,15 @@
 @import './mixins/constants.scss';
 
-#delete-modal {
+.delete-modal {
 	color: $bg-color-navigation;
 
-	.delete-modal-title {
+	&-title {
 		font-size: 2rem;
 		font-weight: bold;
 		margin-bottom: 20px;
 	}
 
-	.delete-modal-content  {
+	&-content  {
 		margin-left: 15px;
 	}
 }
@@ -46,7 +46,7 @@
 .project-tile {
 	float: left;
 
-	.project-tile-row {
+	&-row {
 		margin-bottom: 10px;
 
 		.project-tile-img-container {

@@ -30,7 +30,7 @@ const ProjectsOverview = (props) => {
 	const { projects, handleDeleteProjectTriggered } = props; 
 	return(
 		<div>
-			<Modal id="delete-modal" onAgreeClick={() => deleteProject(handleDeleteProjectTriggered)}>
+			<Modal id="delete-modal" className="delete-modal" onAgreeClick={() => deleteProject(handleDeleteProjectTriggered)}>
 				<div className="delete-modal-title">Delete project?</div>
 			    <div className="delete-modal-content">Do you really want to delete this project? Once it's deleted there is no possibility to bring it back.</div>
 			</Modal>
