@@ -36,7 +36,11 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
-				loaders: ["style", "css", "sass"]	
+				loaders: [
+					"style", 
+					"css", 
+					"sass?includePaths[]="+ path.resolve(__dirname, 'client', 'lib', 'core', 'style', 'mixins')
+				]
 			},
 			{
                 test: /\.(jpe?g|png|gif|svg)$/i,
@@ -50,8 +54,12 @@ module.exports = {
 				loaders: ["file"]	
 			}
 		],
-		exports : {
-
-		}
+	},
+	resolve: {
+		root: [
+			path.resolve("./client/lib"),
+			path.resolve("./images")
+		],
+		extensions: ["", ".js", ".jsx"]
 	}
 }

@@ -4,7 +4,7 @@
   "description": "Melon-Subs HP",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/server.js --ignore components --ignore scripts --ignore style"
+    "start": "nodemon server/server.js --ignore client --ignore components --ignore scripts --ignore style"
   },
   "author": "Raphael Endstrasser",
   "license": "ISC",

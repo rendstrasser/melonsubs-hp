@@ -1,4 +1,4 @@
-import NoCoverImage from '../../../images/projects/no-project-cover.jpg'
+import NoCoverImage from 'projects/no-project-cover.jpg'
 
 export function getMediaLink(file, defaultFilePath = "") {
 	if (!file) {

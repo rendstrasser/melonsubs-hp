@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect} from 'react-redux'
 
-import { getMediaLink } from '../../lib/utils/media'
+import { getMediaLink } from 'utils/media'
 
 import './style/userinfo.scss'
 
