@@ -1,0 +1,10 @@
+@import '../../../lib/core/style/mixins/constants.scss';
+
+.header {
+	height: $header-height;
+	width: 100%;
+	position: relative;
+	padding-left: $base-left-padding;
+	font-weight: bold;
+	color: #00e676  ;
+}

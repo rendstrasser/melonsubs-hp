@@ -1,0 +1,27 @@
+@import './mixins/constants.scss';
+
+.image-upload {
+    position:relative; 
+    overflow:hidden; 
+}
+
+.image-upload:hover {
+    border: 1px solid #{$font-color-white};
+}
+
+.image-upload-input {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:2;
+    opacity:0;
+    width: inherit;
+    height: inherit;
+    cursor:pointer;
+}
+
+.image-upload img {
+    position:absolute;
+    z-index:1;
+    border:none;
+}

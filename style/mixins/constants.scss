@@ -1,0 +1,17 @@
+$header-height: 6rem;
+$base-left-padding: 30px;
+$base-top-padding: 30px;
+$sidebar-width: 250px;
+
+$bg-color-main: #212121;
+$bg-color-navigation: #424242;
+$font-color-green: #00c853;
+$font-color-white: #e8f5e9;
+
+@mixin pos-absolute-all {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

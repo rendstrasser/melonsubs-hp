@@ -1,0 +1,6 @@
+@import '../../../lib/core/style/mixins/centerer.scss';
+
+.headerTitle {
+	font-size: 1.8rem;
+	@include centerer;
+}

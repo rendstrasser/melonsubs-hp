@@ -1,0 +1,12 @@
+@import '../../../lib/core/style/mixins/constants.scss';
+
+.main {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: $sidebar-width;
+	padding-left: $base-left-padding;
+	padding-top: $base-top-padding;
+	color: $font-color-white;
+}

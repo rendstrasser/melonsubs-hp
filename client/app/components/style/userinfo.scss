@@ -1,0 +1,17 @@
+@import '../../../lib/core/style/mixins/centerer.scss';
+
+.user-info-outer {
+	position: relative;
+	width: 100%;
+	height: 7rem;
+	margin-top: -2.5rem;
+}
+
+.user-info {
+	text-align: center;
+	@include centerer;
+}
+
+.user-info-name {
+	margin-top: 0.5rem;
+}
