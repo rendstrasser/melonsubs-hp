@@ -8,7 +8,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-var models = require('../models/index.js')
+var models = require('../models/')
 var sequelize = models.sequelize;
 var Sequelize = models.Sequelize;
 var serverConfig = require("./config.js");
@@ -83,6 +83,12 @@ function isLoggedIn(req, res, next) {
 	res.json({ error: "Please login to request data."});
 }
 
+function extractReturnedDbObject(result) {
+    console.log(result);
+    console.log(result[1]);
+	return result[1][0].dataValues;
+}
+
 module.exports = (app) => {
 	var upload = initMulter();
 	
@@ -122,19 +128,32 @@ module.exports = (app) => {
 	var router = express.Router();
 
 	router.get('/initialData', (req, res) => {
-		models.Project.findAll()
-			.then((projects) => {
-				res.json({ 
-					'user': req.user,
-					'title': serverConfig.title, 
-					'allowedProjectTypes': serverConfig.allowedProjectTypes, 
-					'allowedProjectStatuses': serverConfig.allowedProjectStatuses,
-					'projects': projects
-				});
-			});
+        var result = {
+            'user': req.user,
+            'title': serverConfig.title,
+            'allowedProjectTypes': serverConfig.allowedProjectTypes,
+            'allowedProjectStatuses': serverConfig.allowedProjectStatuses,
+        };
+
+        Promise.all([models.Project.findAll(), models.Article.findAll()])
+            .then(values => {
+                result.projects = values[0];
+                result.articles = values[1];
+
+                res.json(result);
+            });
 	});
 
-	router.post('/project/', upload.single("cover"), (req, res) => {
+	// Project routing
+
+	const projectImageMulterFields = [
+		{ name: 'cover', maxCount: 1 },
+		{ name: 'header', maxCount: 1 },
+		{ name: 'release-preview', maxCount: 1 },
+		{ name: 'avatar', maxCount: 1 },
+	]
+
+	router.post('/project/', upload.fields(projectImageMulterFields), (req, res) => {
 		models.Project
 			.create(models.Project.buildFromRequest(req))
 			.then((project) => {
@@ -142,7 +161,7 @@ module.exports = (app) => {
         	});
 	});
 
-	router.put('/project/:id', upload.single("cover"), (req, res) => {
+	router.put('/project/:id', upload.fields(projectImageMulterFields), (req, res) => {
 		models.Project
 			.update(
 				models.Project.buildFromRequest(req),
@@ -152,7 +171,7 @@ module.exports = (app) => {
 			  	}
 			)
 			.then((result) => {
-				res.json({project: result[1][0].dataValues});
+				res.json({project: extractReturnedDbObject(result)});
 			});
 	});
 
@@ -164,6 +183,42 @@ module.exports = (app) => {
 					.destroy()
 					.then(function(deletedProject) {
 						res.json({project: deletedProject});
+					});
+			});
+	});
+
+	// Article routing
+
+	router.post('/article/', upload.array(), (req, res) => {
+		models.Article
+			.create(models.Article.buildFromRequest(req))
+			.then((article) => {
+	        	res.json({article: article});
+        	});
+	});
+
+	router.put('/article/:id', (req, res) => {
+		models.Article
+			.update(
+				models.Article.buildFromRequest(req),
+				{ 
+			    	where: {id: req.params.id},
+			    	returning: true
+			  	}
+			)
+			.then((result) => {
+				res.json({article: extractReturnedDbObject(result)});
+			});
+	});
+
+	router.delete('/article/:id', function(req, res) {
+		models.Article
+			.findById(req.params.id)
+			.then((article) => {
+				project
+					.destroy()
+					.then(function(deletedArticle) {
+						res.json({article: deletedArticle});
 					});
 			});
 	});

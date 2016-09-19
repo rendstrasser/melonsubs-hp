@@ -1,7 +1,0 @@
-@mixin fading-line($bg-color) {
-    margin: 0;
-    height: 1px;
-    border: 0;
-    background: pink;
-    background: -webkit-gradient(linear, 0 0, 100% 0, from($bg-color), to($bg-color), color-stop(50%, $font-color-white));
-}

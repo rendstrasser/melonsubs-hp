@@ -14,3 +14,18 @@ body {
 	color: white;
 	@include pos-absolute-all;
 }
+
+.text-small {
+	font-size: 0.8rem;
+	color: #7B7B7B;
+}
+
+.text-medium {
+	font-size: 1rem;
+	color: #7B7B7B;
+}
+
+.text-big {
+	font-size: 1.5rem;
+	color: $font-color-white;
+}

@@ -3,20 +3,17 @@ var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var sassMiddleware = require('node-sass-middleware');
-var bodyParser = require('body-parser');
-var babelRegister = require("babel-core/register");
-var babelPolyfill = require("babel-polyfill");
 var path = require("path");
 
 var webpackConfig = require('../webpack.config.js');
 var routes = require("./routes.js");
-var models = require("../models")
-var config = require("./config.js")
-var dbSeed = require("./db-seed.js")
+var models = require("../models");
+var config = require("./config.js");
+var dbSeed = require("./db-seed.js");
 
 process.on('uncaughtException', function (err) {
 	console.log(err);
-})
+});
 
 var app = express();
 
@@ -35,6 +32,7 @@ app.use(sassMiddleware({
 	debug: true
 }));
 
+app.set('models', models);
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
 app.use('/media', express.static(path.resolve(__dirname, '../media')));
@@ -44,6 +42,7 @@ routes(app);
 
 var port = 3000;
 
+console.log("Dropping table is configured as:", config.dbForceDrop);
 models.sequelize.sync({force: config.dbForceDrop}).then(function () {
 	dbSeed();
 

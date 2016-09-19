@@ -35,12 +35,17 @@ module.exports = function(sequelize, DataTypes) {
 			defaultValue: false
 		},
 		favoriteGenres: DataTypes.STRING,
-		favoriteAnime: DataTypes.STRING(1000),
+		favoriteAnime: DataTypes.STRING,
 		memberSince: DataTypes.STRING,
-		additionalInfo: DataTypes.STRING(2000),
+		additionalInfo: DataTypes.TEXT,
 		profileImgPath: DataTypes.STRING,
 	}, {
-		underscored: true
+		underscored: true,
+		classMethods: {
+			associate: function(models) {
+				Member.hasMany(models.Article, {foreignKey: 'authorId'});
+			}
+		}
 	});
 
 	return Member;

@@ -2,6 +2,20 @@ var config = require('../server/config.js');
 var utils = require('../server/utils.js');
 var prepareForDb = utils.prepareForDb;
 
+// extracts file paths which are provided by multer
+// by using the method .fields()
+function addFilePathIfPresent(req, project, field, projectField) {
+	if (!req.files) {
+		return null;
+	}
+
+	if (!req.files[field] || !req.files[field][0]) {
+		return null;
+	}
+
+	project[projectField] = req.files[field][0].filename;
+}
+
 module.exports = function(sequelize, DataTypes) {
 	var Project = sequelize.define('Project', {
 		name: {
@@ -13,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		originalName: DataTypes.STRING,
 		releaseDate: DataTypes.STRING,
-		description: DataTypes.STRING(2000),
+		description: DataTypes.TEXT,
 		genres: DataTypes.STRING,
 		studio: DataTypes.STRING,
 		homepage: {
@@ -63,6 +77,9 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		underscored: true,
 		classMethods: {
+			associate: function(models) {
+				Project.hasMany(models.Episode, {foreignKey: 'projectId'});
+			},
 			buildFromRequest: function(req) {
 				var project = {
 					name: req.body.name,
@@ -72,17 +89,18 @@ module.exports = function(sequelize, DataTypes) {
 					status: req.body.status,
 					published: (req.body.published == "true"),
 					releaseDate: prepareForDb(req.body.releaseDate),
-					genres: prepareForDb(req.body.genre),
+					genres: prepareForDb(req.body.genres),
 					studio: prepareForDb(req.body.studio),
 					homepage: prepareForDb(req.body.homepage),
 					aniDbLink: prepareForDb(req.body.anidbLink),
 					aniSearchLink: prepareForDb(req.body.anisearchLink),
-					malLink: prepareForDb(req.body.malLink),
+					malLink: prepareForDb(req.body.malLink)
 				}
 
-				if (req.file) {
-					project.coverImgPath = req.file.filename;
-				}
+				addFilePathIfPresent(req, project, "cover", "coverImgPath");
+				addFilePathIfPresent(req, project, "avatar", "avatarImgPath");
+				addFilePathIfPresent(req, project, "header", "headerImgPath");
+				addFilePathIfPresent(req, project, "release-preview", "releasePreviewImgPath");
 
 				return project;
 			}

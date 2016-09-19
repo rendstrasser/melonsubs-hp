@@ -14,4 +14,6 @@ module.exports = {
 	// Project info
 	allowedProjectTypes: ["Serie", "Film", "OVA", "OAD"],
 	allowedProjectStatuses: ["Laufend", "Geplant", "Abgeschlossen", "Lizenziert", "Abgebrochen"],
+
+	allowedDateFormats: ["DD.MM.YYYY HH:mm", "DD.MM.YYYY", "DD.MM.YYYY HH", "DD.MM"]
 }

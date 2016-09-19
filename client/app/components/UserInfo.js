@@ -7,7 +7,7 @@ import './style/userinfo.scss'
 
 const mapStateToProps = (state) => {
 	return {
-		user: state.base.user
+		user: state.app.user
 	}
 }
 

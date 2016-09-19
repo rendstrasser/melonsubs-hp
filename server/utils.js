@@ -1,3 +1,7 @@
+var moment = require('moment');
+
+var config = require('./config.js');
+
 module.exports.prepareForDb = function (value) {
 	if (value) {
 		return value.trim();
@@ -6,25 +10,10 @@ module.exports.prepareForDb = function (value) {
 	return null;
 }
 
-module.exports.convertToDate = function (dateString) {
-	if (!dateString) {
-		return null;
-	}
+module.exports.injectDateStringAsUTCDate = function (request, valueExtractor, valueInjector) {
+    const momentValue = moment.utc(valueExtractor(request), config.allowedDateFormats).add(request.body.timezoneOffset, 'minutes');
 
-	// TODO: validation
-	var dateParts = dateString.split(".");
-
-	return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
-}
-
-module.exports.convertFromDate = function(date) {
-	if (!date) {
-		return null;
-	}
-
-	var day = date.getDate();
-	var month = date.getMonth() + 1;
-	var year = date.getFullYear();
-
-	return day + "." + month + "." + year;
+    if (momentValue.isValid()) {
+        valueInjector(momentValue.format("YYYY-MM-DD HH:mm:ss z"));
+    }
 }

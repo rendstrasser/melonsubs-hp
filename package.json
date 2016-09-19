@@ -4,7 +4,7 @@
   "description": "Melon-Subs HP",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/server.js --ignore client --ignore components --ignore scripts --ignore style"
+    "start": "nodemon server/server.js --ignore client"
   },
   "author": "Raphael Endstrasser",
   "license": "ISC",
@@ -16,15 +16,18 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.1.1",
     "body-parser": "^1.15.1",
+    "classnames": "^2.2.5",
     "connect-session-sequelize": "^3.0.0",
     "cookie-parser": "^1.4.1",
     "delete": "^0.3.2",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "jquery": "~2.1.4",
+    "marked": "^0.3.6",
     "materialize-css": "^0.97.6",
     "md5": "^2.1.0",
     "mime": "^1.3.4",
+    "moment": "^2.14.1",
     "multer": "^1.1.0",
     "node-sass-middleware": "^0.9.8",
     "passport": "^0.3.2",
@@ -45,7 +48,6 @@
     "webpack": "^1.12.13"
   },
   "devDependencies": {
-    "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.23.1",
     "eslint-plugin-babel": "^3.2.0",
     "file-loader": "^0.8.5",

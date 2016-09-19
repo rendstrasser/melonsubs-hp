@@ -7,7 +7,7 @@ import './style/header.scss'
 
 const mapStateToProps = (state) => {
 	return {
-		title: state.base.title
+		title: state.app.title
 	}
 }
 

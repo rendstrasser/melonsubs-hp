@@ -10,20 +10,29 @@ import { reducer as formReducer } from 'redux-form'
 
 // components
 import App from './app/components/App'
-import Home from '../components/Home'
-import Projects from '../components/Projects'
-import CreateOrEditProjectContainer from '../components/CreateOrEditProjectContainer'
-import ProjectsOverview from '../components/ProjectsOverview'
-import Login from '../components/Login'
-import LoginRequired from '../components/LoginRequired'
-import Loading from '../components/Loading'
-import InitialDataLoaded from '../components/InitialDataLoaded'
-import RouteSpecificStateReset from '../components/RouteSpecificStateReset'
+import Home from './home/components/Home'
+
+import Projects from './projects/components/Projects'
+import CreateOrEditProjectContainer from './projects/components/CreateOrEditProjectContainer'
+import ProjectsOverview from './projects/components/ProjectsOverview'
+
+import Articles from './articles/components/Articles'
+import CreateOrEditArticleContainer from './articles/components/CreateOrEditArticleContainer'
+import ArticlesOverview from './articles/components/ArticlesOverview'
+
+import Login from './app/components/Login'
+import LoginRequired from './app/components/LoginRequired'
+import Loading from './app/components/Loading'
+import InitialDataLoaded from './app/components/InitialDataLoaded'
+import RouteSpecificStateReset from './app/components/RouteSpecificStateReset'
 
 // other self-written js modules
-import reducer from '../redux/reducer.js'
-import * as LongRunningSagas from '../redux/sagas.js'
-import { getInitialDataListener, postProjectListener, updateProjectListener, loginSubmittedSaga, deleteProjectListener } from '../redux/sagas.js'
+import appReducer from './app/reducer'
+import projectsReducer from './projects/reducer'
+import articlesReducer from './articles/reducer'
+import * as AppSagas from './app/sagas'
+import * as ProjectSagas from './projects/sagas'
+import * as ArticleSagas from './articles/sagas'
 
 // css and images
 import './lib/core/style/reset-css.scss'
@@ -34,40 +43,52 @@ import './lib/core/style/admin.scss'
 // Can go away when react 1.0 release
 injectTapEventPlugin();
 
-// TODO: get initial state without rendering page (loading indicator)
 const initialState = {
-	base: {
+	app: {
 		title: "",
 		allowedProjectTypes: ["Serie", "Film", "OVA", "OAD"],
 		allowedProjectStatuses: ["Laufend", "Geplant", "Abgeschlossen", "Lizenziert", "Abgebrochen"],
-		currentAddProjectCoverImg: undefined,
-		currentAddProjectCoverImgValidationError: undefined,
-		currentCoverImgSrc: undefined,
 		user: undefined,
 		logInError: "",
 		lastInitialDataLoadedTimestamp: Number.MIN_VALUE,
-		returnTo: "/home"
+		returnTo: "/home",
+		basicRouteSpecificState: {
+			imageUpload: {},
+			mediaUpload: {},
+			popup: {}
+		}
+	},
+	projects: {
+		elements: []
+	},
+	articles: {
+		elements: []
 	}
 }
 
 const sagaMiddleware = createSagaMiddleware();
-const baseReducer = combineReducers({
-	base: reducer, 
+const reducer = combineReducers({
+	app: appReducer,
+	projects: projectsReducer,
+	articles: articlesReducer,
 	form: formReducer,
 	routing: routerReducer
 });
 
 const store = createStore(
-	baseReducer,
+	reducer,
 	initialState,
 	compose(applyMiddleware(sagaMiddleware),
 	window.devToolsExtension ? window.devToolsExtension() : f => f));
 
-sagaMiddleware.run(LongRunningSagas.getInitialDataListener);
-sagaMiddleware.run(LongRunningSagas.postProjectListener);
-sagaMiddleware.run(LongRunningSagas.updateProjectListener);
-sagaMiddleware.run(LongRunningSagas.loginSubmittedSaga);
-sagaMiddleware.run(LongRunningSagas.deleteProjectListener);
+sagaMiddleware.run(AppSagas.getInitialDataListener);
+sagaMiddleware.run(AppSagas.loginListener);
+sagaMiddleware.run(ProjectSagas.createProjectListener);
+sagaMiddleware.run(ProjectSagas.updateProjectListener);
+sagaMiddleware.run(ProjectSagas.deleteProjectListener);
+sagaMiddleware.run(ArticleSagas.createArticleListener);
+sagaMiddleware.run(ArticleSagas.updateArticleListener);
+sagaMiddleware.run(ArticleSagas.deleteArticleListener);
 
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -93,7 +114,10 @@ render(
 					    		<IndexRoute title="Projects Overview" component={ProjectsOverview}/>
 					    		<Route title="Manage project" path="set(/:id)" component={CreateOrEditProjectContainer}/>
 					    	</Route>
-					    	<Route title="Articles" path="articles" component={Projects}/>
+					    	<Route path="articles" component={Articles}>
+					    		<IndexRoute title="Articles Overview" component={ArticlesOverview}/>
+					    		<Route title="Manage article" path="set(/:id)" component={CreateOrEditArticleContainer}/>
+					    	</Route>
 					    	<Route title="Members" path="members" component={Projects}/>
 					    	<Route title="Settings" path="settings" component={Projects}/>
 					    </Route>
