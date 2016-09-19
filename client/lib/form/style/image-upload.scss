@@ -1,0 +1,71 @@
+@import 'constants.scss';
+
+.card, .image-upload, .image-upload img, .card-image, .image-upload-border-overlay {
+    border-radius: 10px !important;
+}
+
+.card {
+    background-color: transparent !important;
+}
+
+
+.image-upload {
+    position:relative; 
+    overflow:hidden; 
+
+    &-validation-error-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index:9;
+        color: #F44336;
+        padding-left: 5%;
+        padding-top: 10%;
+        padding-bottom: 10%;
+        font-size: 0.85rem;
+        line-height: 1.2rem;
+        text-shadow: 2px 2px #000;
+        border-bottom-right-radius:10px;
+        border-bottom-left-radius:10px;
+
+        &:not(:empty) {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    }
+
+    &-border-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: transparent;
+        z-index: 10;
+        opacity: 0;
+        cursor: pointer;
+
+        &:hover {
+            transition: opacity .2s;
+            opacity: 1;
+            border: 2px solid #{$font-color-green}; 
+        }
+    }
+
+    &-input {
+        position:absolute;
+        top:0;
+        left:0;
+        z-index:3;
+        opacity:0;
+        width: inherit;
+        height: inherit;
+        cursor:pointer;
+    }
+
+    img {
+        position:absolute;
+        z-index:1;
+        border:none;
+    }
+}

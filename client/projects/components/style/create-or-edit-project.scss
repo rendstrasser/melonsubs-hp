@@ -1,0 +1,26 @@
+@import 'constants.scss';
+
+
+.description {
+    line-height: 1.4rem;
+    height: 15rem !important;
+}
+
+.input-field label {
+    left: 0 ;
+}
+
+.input-field input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #D4D4D4;
+}
+.input-field input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: #D4D4D4;
+   opacity: 1;
+}
+.input-field input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: #D4D4D4;
+   opacity: 1;
+}
+.input-field input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #D4D4D4;
+}

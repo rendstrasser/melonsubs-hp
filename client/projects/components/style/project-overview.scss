@@ -1,0 +1,88 @@
+@import 'constants.scss';
+
+.delete-modal {
+	color: $bg-color-navigation;
+
+	&-title {
+		font-size: 2rem;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
+
+	&-content  {
+		margin-left: 15px;
+	}
+}
+
+.addButton {
+	position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.deleteButton {
+	position: absolute;
+	bottom: 2px;
+	right: 0;
+	z-index: 20;
+	text-decoration: none;
+	background: transparent;
+	border: 0px;
+	color: darkgrey;
+	margin-right: 10px;
+	width: 35px;
+	height: 35px;
+
+	&:hover {
+		color: $font-color-white;
+		transition: all .5s
+	}
+
+	&:focus {
+		background-color: transparent;
+	}
+}
+
+.project-tile {
+	float: left;
+
+	&-row {
+		margin-bottom: 10px;
+
+		.project-tile-img-container {
+			position: relative;
+
+			.project-tile-img-overlay {
+				background-image: linear-gradient(to bottom,transparent 40%,#{darken($bg-color-main,10)} 100%);
+				background-repeat: repeat-x;
+				position:absolute;
+			    top:0;
+			    left:0;
+			    z-index:10;
+			    opacity:0;
+			    width: 170px;
+			    height: 240px;
+			    cursor: pointer;
+
+				&:hover {
+					border: 2px solid #{$font-color-green};
+					opacity: 1;
+					transition: opacity .2s;
+
+					.deleteButton {
+						transition: all .2s;
+						transform: translateY(-10px);
+					}
+				}
+			}
+		}
+	}
+
+	.project-tile-year-row {
+		height: 2rem;
+
+		.project-tile-year {
+			color: #999;
+		}
+	}
+}
